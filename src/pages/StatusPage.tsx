@@ -67,9 +67,9 @@ export const StatusPage = () => {
 
   if (isLoading || !statusData) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${
-        isDarkMode 
-          ? 'bg-bg-primary text-white' 
+      <div className={`flex-1 flex items-center justify-center ${
+        isDarkMode
+          ? 'bg-bg-primary text-white'
           : 'bg-gray-50 text-gray-900'
       }`}>
         <div className="text-center">
@@ -89,12 +89,12 @@ export const StatusPage = () => {
   const statusColor = currentStatus.isHealthy ? 'text-emerald-400' : 'text-red-400';
 
   return (
-    <div className={`min-h-screen ${
-      isDarkMode 
-        ? 'bg-bg-primary text-white' 
+    <div className={`flex-1 ${
+      isDarkMode
+        ? 'bg-bg-primary text-white'
         : 'bg-gray-50 text-gray-900'
-    }`}> 
-      <div className="flex flex-col items-center justify-center min-h-screen px-4">
+    }`}>
+      <div className="flex flex-col items-center justify-center min-h-full px-4 py-8">
         {/* 顶部标题与描述 */}
         <div className="mb-8 text-center">
           <h1 className={`text-3xl md:text-4xl font-bold mb-2 ${

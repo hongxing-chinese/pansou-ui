@@ -1,8 +1,8 @@
 {
-    "name": "pansou-tool",
+    "name": "pansou-ui",
     "private": false,
     "version": "1.0.0",
-    "description": "A modern web-based tool for searching cloud storage resources and monitoring API status",
+    "description": "The Pansou's front-end page",
     "keywords": ["pansou", "cloud-storage", "search", "react", "typescript", "vite"],
     "author": "Your Name",
     "license": "MIT",

@@ -5,6 +5,7 @@ import { SearchResults } from './components/SearchResults';
 import { ErrorMessage } from './components/ErrorMessage';
 import { LoadingState } from './components/LoadingState';
 import { EmptyState } from './components/EmptyState';
+import { Footer } from './components/Footer';
 import { StatusPage } from './pages/StatusPage';
 import { useState, useMemo } from 'react';
 import { searchPanSouGet } from './services/pansouApi';
@@ -32,9 +33,9 @@ const Navigation = () => {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold">PanSou 工具</h1>
+                <h1 className="text-2xl font-bold">PanSou 盘搜</h1>
                 <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  网盘资源搜索与API监控
+                  聚合网盘资源搜索与监控
                 </p>
               </div>
             </Link>
@@ -321,7 +322,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`flex-1 transition-colors duration-300 ${
       isDarkMode ? 'bg-bg-primary text-white' : 'bg-gray-50 text-gray-900'
     }`}>
       <main className="max-w-6xl mx-auto px-6 py-8">
@@ -364,11 +365,14 @@ const SearchPage = () => {
 const AppContent = () => {
   return (
     <Router>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<SearchPage />} />
-        <Route path="/status" element={<StatusPage />} />
-      </Routes>
+      <div className="flex flex-col min-h-screen">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<SearchPage />} />
+          <Route path="/status" element={<StatusPage />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   );
 };
