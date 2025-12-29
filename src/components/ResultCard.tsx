@@ -52,14 +52,14 @@ export const ResultCard = ({ result }: ResultCardProps) => {
   }
 
   return (
-    <div className={`rounded-3xl p-6 transition-all duration-300 card-hover glass-effect ${
-      isDarkMode 
-        ? 'bg-gray-800 border border-gray-700 hover:border-gray-600' 
+    <div className={`rounded-2xl md:rounded-3xl p-4 md:p-6 transition-all duration-300 card-hover glass-effect ${
+      isDarkMode
+        ? 'bg-gray-800 border border-gray-700 hover:border-gray-600'
         : 'bg-white border border-gray-200 hover:border-gray-300 shadow-lg hover:shadow-xl'
     }`}>
       {/* 标题和内容 */}
       <div className="mb-4">
-        <h3 className={`text-lg font-bold mb-2 line-clamp-2 ${
+        <h3 className={`text-base md:text-lg font-bold mb-2 line-clamp-2 ${
           isDarkMode ? 'text-white' : 'text-gray-900'
         }`}>
           {result.title}
@@ -78,8 +78,8 @@ export const ResultCard = ({ result }: ResultCardProps) => {
             <span
               key={index}
               className={`px-2 py-1 rounded-lg text-xs font-medium ${
-                isDarkMode 
-                  ? 'bg-gray-700 text-gray-300' 
+                isDarkMode
+                  ? 'bg-gray-700 text-gray-300'
                   : 'bg-gray-100 text-gray-600'
               }`}
             >
@@ -94,26 +94,26 @@ export const ResultCard = ({ result }: ResultCardProps) => {
         {supportedLinks.map((link, index) => (
           <div
             key={`${result.unique_id}-${link.type}-${index}`}
-            className={`p-4 rounded-2xl border ${
-              isDarkMode 
-                ? 'bg-gray-700/50 border-gray-600' 
+            className={`p-3 md:p-4 rounded-xl md:rounded-2xl border ${
+              isDarkMode
+                ? 'bg-gray-700/50 border-gray-600'
                 : 'bg-gray-50 border-gray-200'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 md:gap-3 flex-wrap">
                 {/* 网盘类型标识 */}
-                                 <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                 <div className={`px-2 md:px-3 py-1 rounded-full text-xs font-semibold ${
                    getPanTypeColor(link.type)
                  }`}>
                   {getPanTypeName(link.type)}
                 </div>
-                
+
                 {/* 密码提示 */}
                 {link.password && (
                                   <div className={`px-2 py-1 rounded-lg text-xs ${
-                  isDarkMode 
-                    ? 'bg-yellow-900/30 text-yellow-300' 
+                  isDarkMode
+                    ? 'bg-yellow-900/30 text-yellow-300'
                     : 'bg-yellow-100 text-yellow-700'
                 }`}>
                   密码: {link.password}
@@ -122,16 +122,16 @@ export const ResultCard = ({ result }: ResultCardProps) => {
               </div>
 
               {/* 操作按钮 */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                   onClick={() => handleCopy(link.url, index)}
-                  className={`p-2 rounded-lg transition-all duration-200 btn-hover ${
+                  className={`p-2 rounded-lg transition-all duration-200 btn-hover active:scale-95 ${
                     copiedIndex === index
-                      ? isDarkMode 
-                        ? 'bg-success-color text-white' 
+                      ? isDarkMode
+                        ? 'bg-success-color text-white'
                         : 'bg-green-500 text-white'
-                      : isDarkMode 
-                        ? 'bg-surface-3 hover:bg-surface-2 text-text-secondary' 
+                      : isDarkMode
+                        ? 'bg-surface-3 hover:bg-surface-2 text-text-secondary'
                         : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
                   }`}
                   title="复制链接"
@@ -149,9 +149,9 @@ export const ResultCard = ({ result }: ResultCardProps) => {
 
                 <button
                   onClick={() => handleOpen(link.url)}
-                                  className={`p-2 rounded-xl transition-all duration-200 ${
-                  isDarkMode 
-                    ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg' 
+                                  className={`p-2 rounded-xl transition-all duration-200 active:scale-95 ${
+                  isDarkMode
+                    ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg'
                     : 'bg-blue-500 hover:bg-blue-600 text-white'
                 }`}
                   title="打开链接"
@@ -167,10 +167,10 @@ export const ResultCard = ({ result }: ResultCardProps) => {
       </div>
 
       {/* 底部信息 */}
-      <div className={`flex items-center justify-between mt-4 pt-4 border-t ${
+      <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-4 pt-4 border-t ${
         isDarkMode ? 'border-gray-700' : 'border-gray-200'
       }`}>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 md:gap-4 flex-wrap">
           <span className={`text-xs ${
             isDarkMode ? 'text-gray-400' : 'text-gray-500'
           }`}>
@@ -182,7 +182,7 @@ export const ResultCard = ({ result }: ResultCardProps) => {
             {formatDate(result.datetime)}
           </span>
         </div>
-        
+
         <div className={`text-xs ${
           isDarkMode ? 'text-gray-400' : 'text-gray-500'
         }`}>

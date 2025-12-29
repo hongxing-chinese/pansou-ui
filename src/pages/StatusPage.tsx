@@ -20,12 +20,12 @@ export const StatusPage = () => {
     loadStatusData();
     // 启动监控，每1分钟检查一次
     statusService.startMonitoring(60000);
-    
+
     // 设置下次检查时间
     const now = new Date();
     const nextCheck = new Date(now.getTime() + 60000);
     setNextCheckTime(nextCheck);
-    
+
     // 更新下次检查时间
     const timeInterval = setInterval(() => {
       const now = new Date();
@@ -55,7 +55,7 @@ export const StatusPage = () => {
       await statusService.checkApiHealth();
       const data = statusService.getStatusData();
       setStatusData(data);
-      
+
       // 更新下次检查时间
       const now = new Date();
       const nextCheck = new Date(now.getTime() + 60000);
@@ -94,112 +94,134 @@ export const StatusPage = () => {
         ? 'bg-bg-primary text-white'
         : 'bg-gray-50 text-gray-900'
     }`}>
-      <div className="flex flex-col items-center justify-center min-h-full px-4 py-8">
+      <div className="flex flex-col items-center justify-center min-h-full px-4 py-6 md:py-8">
         {/* 顶部标题与描述 */}
-        <div className="mb-8 text-center">
-          <h1 className={`text-3xl md:text-4xl font-bold mb-2 ${
-          isDarkMode 
-            ? 'text-white' 
+        <div className="mb-6 md:mb-8 text-center">
+          <h1 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-2 ${
+          isDarkMode
+            ? 'text-white'
             : 'text-gray-900'
         }`}>
             API 状态监控
           </h1>
-          <p className={`text-base md:text-lg ${
+          <p className={`text-sm md:text-base lg:text-lg ${
             isDarkMode ? 'text-text-secondary' : 'text-gray-600'
           }`}>
             实时监控 PanSou API 服务可用性
           </p>
         </div>
 
-        {/* 主卡片 */}
-        <div className={`w-full max-w-xl rounded-3xl p-8 glass-effect ${
-          isDarkMode 
-            ? 'shadow-2xl' 
+        {/* 主卡片 - 移动端优化 */}
+        <div className={`w-full max-w-xl rounded-2xl md:rounded-3xl p-6 md:p-8 glass-effect ${
+          isDarkMode
+            ? 'shadow-2xl'
             : 'shadow-xl'
-        }`}> 
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        }`}>
+          {/* 服务名称和状态 */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-6">
             <div>
-              <div className={`text-lg font-semibold mb-1 ${
+              <div className={`text-base md:text-lg font-semibold mb-1 ${
                 isDarkMode ? 'text-text-primary' : 'text-gray-900'
               }`}>
                 PanSou API
               </div>
-              <div className={`text-2xl font-bold ${statusColor}`}>{statusText}</div>
+              <div className={`text-xl md:text-2xl font-bold ${statusColor}`}>{statusText}</div>
             </div>
-            <div className="flex flex-col items-end gap-2">
-              <button
-                onClick={handleRefresh}
-                disabled={isRefreshing}
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
-                  isRefreshing
-                    ? isDarkMode 
-                      ? 'bg-surface-2 text-text-secondary cursor-not-allowed' 
-                      : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : isDarkMode 
-                      ? 'bg-accent-color hover:bg-accent-hover text-white shadow-lg' 
-                      : 'bg-blue-500 hover:bg-blue-600 text-white'
-                }`}
-              >
-                {isRefreshing ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block mr-2"></div>
-                    刷新中...
-                  </>
-                ) : (
-                  <>刷新</>
-                )}
-              </button>
-              <div className={`text-xs ${
-                isDarkMode ? 'text-text-secondary' : 'text-gray-400'
-              }`}>
-                上次检查：{currentStatus.lastChecked.toLocaleString('zh-CN')}
-              </div>
-            </div>
+
+            {/* 刷新按钮 */}
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className={`w-full sm:w-auto px-4 py-2 rounded-xl font-medium transition-all duration-200 active:scale-95 ${
+                isRefreshing
+                  ? isDarkMode
+                    ? 'bg-surface-2 text-text-secondary cursor-not-allowed'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : isDarkMode
+                    ? 'bg-accent-color hover:bg-accent-hover text-white shadow-lg'
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+              }`}
+            >
+              {isRefreshing ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  刷新中...
+                </div>
+              ) : (
+                '刷新'
+              )}
+            </button>
           </div>
 
-          {/* 进度条与百分比 */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className={`text-sm font-medium ${
-                isDarkMode ? 'text-text-secondary' : 'text-gray-700'
+          {/* 核心指标 - Grid 布局 */}
+          <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
+            {/* 可用率 */}
+            <div className={`p-4 rounded-2xl ${
+              isDarkMode ? 'bg-gray-800/50' : 'bg-gray-50'
+            }`}>
+              <p className={`text-xs md:text-sm mb-1 ${
+                isDarkMode ? 'text-text-secondary' : 'text-gray-500'
               }`}>
                 可用率
-              </span>
-              <span className={`text-sm font-bold ${
+              </p>
+              <p className={`text-xl md:text-2xl font-bold ${
                 isDarkMode ? 'text-text-primary' : 'text-gray-900'
               }`}>
                 {uptime.toFixed(2)}%
-              </span>
+              </p>
+              {/* 进度条 */}
+              <div className={`w-full h-2 rounded-full ${barBg} overflow-hidden mt-2`}>
+                <div
+                  className={`h-2 rounded-full transition-all duration-500 ${barColor}`}
+                  style={{ width: `${uptime}%` }}
+                ></div>
+              </div>
             </div>
-            <div className={`w-full h-3 rounded-full ${barBg} overflow-hidden`}>
-              <div
-                className={`h-3 rounded-full transition-all duration-500 ${barColor}`}
-                style={{ width: `${uptime}%` }}
-              ></div>
-            </div>
-          </div>
 
-          {/* 响应时间与错误 */}
-          <div className="flex items-center justify-between mt-6">
-            <div className={`text-sm ${
-              isDarkMode ? 'text-text-secondary' : 'text-gray-600'
+            {/* 响应时间 */}
+            <div className={`p-4 rounded-2xl ${
+              isDarkMode ? 'bg-gray-800/50' : 'bg-gray-50'
             }`}>
-              响应时间：<span className={`font-semibold ${
+              <p className={`text-xs md:text-sm mb-1 ${
+                isDarkMode ? 'text-text-secondary' : 'text-gray-500'
+              }`}>
+                响应时间
+              </p>
+              <p className={`text-xl md:text-2xl font-bold ${
                 isDarkMode ? 'text-text-primary' : 'text-gray-900'
               }`}>
-                {currentStatus.responseTime} ms
-              </span>
+                {currentStatus.responseTime}
+                <span className="text-sm md:text-base font-normal ml-1">ms</span>
+              </p>
             </div>
-            {currentStatus.error && (
-              <div className="text-sm text-red-400 font-medium">{currentStatus.error}</div>
-            )}
           </div>
 
+          {/* 上次检查时间 */}
+          <div className={`text-xs md:text-sm mb-4 ${
+            isDarkMode ? 'text-text-secondary' : 'text-gray-500'
+          }`}>
+            上次检查：{currentStatus.lastChecked.toLocaleString('zh-CN')}
+          </div>
+
+          {/* 错误信息 */}
+          {currentStatus.error && (
+            <div className={`p-3 rounded-xl mb-4 ${
+              isDarkMode ? 'bg-red-900/20 text-red-400' : 'bg-red-50 text-red-600'
+            }`}>
+              <div className="flex items-start gap-2">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm">{currentStatus.error}</span>
+              </div>
+            </div>
+          )}
+
           {/* 监控状态 */}
-          <div className={`mt-6 pt-4 border-t ${
+          <div className={`pt-4 border-t ${
             isDarkMode ? 'border-border-color' : 'border-gray-200'
           }`}>
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs md:text-sm">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                 <span className={isDarkMode ? 'text-text-secondary' : 'text-gray-600'}>
@@ -211,7 +233,7 @@ export const StatusPage = () => {
               </div>
             </div>
             {nextCheckTime && (
-              <div className={`text-xs mt-1 ${
+              <div className={`text-xs mt-2 ${
                 isDarkMode ? 'text-text-secondary' : 'text-gray-400'
               }`}>
                 下次检查：{nextCheckTime.toLocaleString('zh-CN')}

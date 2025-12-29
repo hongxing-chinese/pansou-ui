@@ -21,29 +21,33 @@ const Navigation = () => {
     <nav className={`border-b sticky top-0 z-50 ${
       isDarkMode ? 'border-gray-700 bg-gray-900/80' : 'border-gray-200 bg-white/80'
     } backdrop-blur-lg`}>
-      <div className="max-w-6xl mx-auto px-6 py-4">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link to="/" className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
-                isDarkMode ? 'bg-gray-700' : 'bg-blue-500'
-              }`}>
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">PanSou 盘搜</h1>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  聚合网盘资源搜索与监控
-                </p>
-              </div>
-            </Link>
-            
+          {/* Logo 区域 - 移动端简化 */}
+          <Link to="/" className="flex items-center gap-2 md:gap-3">
+            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl flex items-center justify-center ${
+              isDarkMode ? 'bg-gray-700' : 'bg-blue-500'
+            }`}>
+              <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <div className="hidden sm:block">
+              <h1 className="text-xl md:text-2xl font-bold">PanSou 盘搜</h1>
+              <p className={`text-xs md:text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                聚合网盘资源搜索与监控
+              </p>
+            </div>
+            <h1 className="sm:hidden text-lg font-bold">盘搜</h1>
+          </Link>
+
+          {/* 右侧操作区 */}
+          <div className="flex items-center gap-2">
+            {/* 导航按钮 - 移动端优化 */}
             <div className="flex items-center gap-1">
               <Link
                 to="/"
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-sm md:text-base font-medium transition-all duration-200 active:scale-95 ${
                   !isStatusPage
                     ? isDarkMode ? 'bg-accent-color text-white shadow-lg' : 'bg-blue-500 text-white'
                     : isDarkMode ? 'text-white hover:bg-gray-800' : 'text-gray-600 hover:bg-gray-100'
@@ -53,36 +57,39 @@ const Navigation = () => {
               </Link>
               <Link
                 to="/status"
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-sm md:text-base font-medium transition-all duration-200 active:scale-95 ${
                   isStatusPage
                     ? isDarkMode ? 'bg-accent-color text-white shadow-lg' : 'bg-blue-500 text-white'
                     : isDarkMode ? 'text-white hover:bg-gray-800' : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
-                状态监控
+                <span className="hidden sm:inline">状态监控</span>
+                <span className="sm:hidden">状态</span>
               </Link>
             </div>
+
+            {/* 主题切换按钮 */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-xl transition-all duration-200 active:scale-95 ${
+                isDarkMode
+                  ? 'bg-gray-800 hover:bg-gray-700 text-yellow-400'
+                  : 'bg-white hover:bg-gray-50 text-gray-700 shadow-lg'
+              }`}
+              title={isDarkMode ? '切换到亮色模式' : '切换到暗色模式'}
+              aria-label={isDarkMode ? '切换到亮色模式' : '切换到暗色模式'}
+            >
+              {isDarkMode ? (
+                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
           </div>
-          
-          <button
-            onClick={toggleTheme}
-            className={`p-2 rounded-xl transition-all duration-200 ${
-              isDarkMode 
-                ? 'bg-gray-800 hover:bg-gray-700 text-yellow-400' 
-                : 'bg-white hover:bg-gray-50 text-gray-700 shadow-lg'
-            }`}
-            title={isDarkMode ? '切换到亮色模式' : '切换到暗色模式'}
-          >
-            {isDarkMode ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            )}
-          </button>
         </div>
       </div>
     </nav>
@@ -95,7 +102,10 @@ const SearchPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(20);
+  // 移动端默认10条，桌面端默认20条
+  const [pageSize, setPageSize] = useState(() => {
+    return window.innerWidth < 768 ? 10 : 20;
+  });
   const [selectedType, setSelectedType] = useState<string>('all');
   const [showOtherTypes, setShowOtherTypes] = useState(false);
 
@@ -197,8 +207,8 @@ const SearchPage = () => {
   // 分页大小选择器
   const PageSizeSelector = () => (
     <div className="flex items-center gap-2">
-      <span className={`text-sm ${isDarkMode ? 'text-text-secondary' : 'text-gray-600'}`}>
-        每页显示：
+      <span className={`text-xs md:text-sm ${isDarkMode ? 'text-text-secondary' : 'text-gray-600'}`}>
+        每页：
       </span>
       <select
         value={pageSize}
@@ -206,9 +216,9 @@ const SearchPage = () => {
           setPageSize(Number(e.target.value));
           setCurrentPage(1);
         }}
-        className={`px-2 py-1 rounded border text-sm ${
-          isDarkMode 
-            ? 'bg-surface-2 border-border-color text-text-primary' 
+        className={`px-2 py-1 rounded-lg border text-xs md:text-sm active:scale-95 transition-transform ${
+          isDarkMode
+            ? 'bg-surface-2 border-border-color text-text-primary'
             : 'bg-white border-gray-300 text-gray-900'
         }`}
       >
@@ -227,7 +237,7 @@ const SearchPage = () => {
     const getPageNumbers = () => {
       const pages = [];
       const maxVisible = 7;
-      
+
       if (totalPages <= maxVisible) {
         for (let i = 1; i <= totalPages; i++) {
           pages.push(i);
@@ -255,21 +265,21 @@ const SearchPage = () => {
           pages.push(totalPages);
         }
       }
-      
+
       return pages;
     };
 
     return (
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 px-4 md:px-0">
         <PageSizeSelector />
-        
-        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-1 md:gap-2 flex-wrap justify-center">
           <button
-            className={`px-3 py-1 rounded border text-sm transition-all duration-200 ${
+            className={`px-2 md:px-3 py-1 rounded-lg border text-xs md:text-sm transition-all duration-200 active:scale-95 ${
               currentPage === 1
                 ? 'opacity-50 cursor-not-allowed'
-                : isDarkMode 
-                  ? 'border-border-color text-text-secondary hover:bg-surface-2' 
+                : isDarkMode
+                  ? 'border-border-color text-text-secondary hover:bg-surface-2'
                   : 'border-gray-300 text-gray-600 hover:bg-gray-50'
             }`}
             disabled={currentPage === 1}
@@ -277,19 +287,19 @@ const SearchPage = () => {
           >
             上一页
           </button>
-          
+
           {getPageNumbers().map((page, index) => (
             <button
               key={index}
-              className={`px-3 py-1 rounded border text-sm transition-all duration-200 ${
+              className={`px-2 md:px-3 py-1 rounded-lg border text-xs md:text-sm transition-all duration-200 active:scale-95 ${
                 page === '...'
-                  ? isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  ? isDarkMode ? 'text-gray-400 border-transparent' : 'text-gray-500 border-transparent'
                   : page === currentPage
-                    ? isDarkMode 
+                    ? isDarkMode
                       ? 'bg-accent-color text-white border-accent-color shadow-lg'
                       : 'bg-blue-500 text-white border-blue-500'
-                    : isDarkMode 
-                      ? 'border-border-color text-text-secondary hover:bg-surface-2' 
+                    : isDarkMode
+                      ? 'border-border-color text-text-secondary hover:bg-surface-2'
                       : 'border-gray-300 text-gray-600 hover:bg-gray-50'
               }`}
               disabled={page === '...'}
@@ -298,13 +308,13 @@ const SearchPage = () => {
               {page}
             </button>
           ))}
-          
+
           <button
-            className={`px-3 py-1 rounded border text-sm transition-all duration-200 ${
+            className={`px-2 md:px-3 py-1 rounded-lg border text-xs md:text-sm transition-all duration-200 active:scale-95 ${
               currentPage === totalPages
                 ? 'opacity-50 cursor-not-allowed'
-                : isDarkMode 
-                  ? 'border-border-color text-text-secondary hover:bg-surface-2' 
+                : isDarkMode
+                  ? 'border-border-color text-text-secondary hover:bg-surface-2'
                   : 'border-gray-300 text-gray-600 hover:bg-gray-50'
             }`}
             disabled={currentPage === totalPages}
@@ -313,9 +323,9 @@ const SearchPage = () => {
             下一页
           </button>
         </div>
-        
-        <div className={`text-sm ${isDarkMode ? 'text-text-secondary' : 'text-gray-600'}`}>
-          第 {currentPage} 页，共 {totalPages} 页
+
+        <div className={`text-xs md:text-sm ${isDarkMode ? 'text-text-secondary' : 'text-gray-600'}`}>
+          第 {currentPage}/{totalPages} 页
         </div>
       </div>
     );

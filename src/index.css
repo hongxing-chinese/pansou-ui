@@ -69,6 +69,17 @@
     }
 }
 
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .animate-fade-in {
     animation: fade-in 0.3s ease-out forwards;
 }
@@ -79,6 +90,10 @@
 
 .animate-scale-in {
     animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 
@@ -113,6 +128,20 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+}
+
+/* Safe Area 支持 (iPhone X+ 等设备) */
+body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+/* 确保内容区域不被 Safe Area 遮挡 */
+#root {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
 }
 
 
@@ -173,13 +202,33 @@ body {
 
 .card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.dark .card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
+/* 桌面端卡片投影 */
+@media (min-width: 768px) {
+    .card-hover:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .dark .card-hover:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* 移动端卡片投影 - 更柔和 */
+@media (max-width: 767px) {
+    .card-hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .dark .card-hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-hover:active {
+        transform: scale(0.98);
+    }
 }
 
 
