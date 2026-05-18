@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { SearchRequest, SearchResponse, ErrorResponse } from '../types/api';
 
 // 使用代理URL
-const API_BASE_URL = import.meta.env.DEV ? '' : 'https://pansou.252035.xyz';
+const API_BASE_URL = import.meta.env.DEV ? '' : 'https://so.252035.xyz';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

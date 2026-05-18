@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://pansou.252035.xyz',
+        target: 'https://so.252035.xyz',
         changeOrigin: true,
         secure: true,
       }
